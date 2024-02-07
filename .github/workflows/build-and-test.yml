@@ -78,7 +78,8 @@ jobs:
         cd tudat
         mkdir build
         cd build
-        cmake .. -DCMAKE_BUILD_TYPE=RELEASE \
+        cmake .. -DCMAKE_CXX_STANDARD=14 \
+          -DCMAKE_BUILD_TYPE=RELEASE \
           -DTudatResources_DIR="../../tudat-resources/install" \
           -DCSpice_DIR="../../cspice-cmake/install/lib/cmake/cspice" \
           -DSofa_DIR="../../sofa-cmake/install/lib/cmake/sofa"
