@@ -16,18 +16,9 @@ jobs:
     steps:
     - name: System update
       run: |
-        sudo apt update
-        sudo apt install build-essential
-        echo "stdlib.h"
-        head -n 5 /usr/include/stdlib.h
-        echo "ansi_stdlib.h"
-        head -n 5 /usr/include/bash/include/ansi_stdlib.h
-        echo "bits/stdlib.h"
-        head -n 5 /usr/include/bits/stdlib.h
-        echo "c++/..stdlib.h"
-        head -n 5 /usr/include/c++/*/stdlib.h
-        echo "c++/*/tr1/stdlib.h"
-        head -n 5 /usr/include/c++/6.3.0/tr1/stdlib.h
+        sudo apt-get update
+        sudo apt-get install build-essential
+        sudo apt-get install libstdc++6
 
     - name: Install Boost
       run: |
