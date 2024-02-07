@@ -14,6 +14,12 @@ jobs:
     runs-on: ubuntu-22.04 # GitHub hosted runner (machine) on which tudat will be built
 
     steps:
+    - name: Install Boost
+      run: |
+        sudo apt-get install libboost-all-dev
+        echo "Boost version"
+        dpkg -s libboost-all-dev | grep 'Version'
+
     - name: Install Eigen 3.4.0
       run: |
         git clone https://gitlab.com/libeigen/eigen.git
@@ -73,7 +79,6 @@ jobs:
         mkdir build
         cd build
         cmake .. -DCMAKE_BUILD_TYPE=RELEASE \
-          -DTUDAT_DOWNLOAD_AND_BUILD_BOOST=ON \
           -DTudatResources_DIR="../../tudat-resources/install" \
           -DCSpice_DIR="../../cspice-cmake/install/lib/cmake/cspice" \
           -DSofa_DIR="../../sofa-cmake/install/lib/cmake/sofa/" \
