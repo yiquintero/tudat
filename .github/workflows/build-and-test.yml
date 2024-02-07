@@ -14,28 +14,22 @@ jobs:
     runs-on: ubuntu-22.04 # GitHub hosted runner (machine) on which tudat will be built
 
     steps:
+
+    - name: Install libstdc++
+      run: |
+        sudo apt-get install libstdc++
+
     - name: Install Boost
       run: |
         sudo apt-get install libboost-all-dev
         echo "Boost version"
         dpkg -s libboost-all-dev | grep 'Version'
 
-    # - name: Install Eigen 3.4.0
-    #   run: |
-    #     git clone https://gitlab.com/libeigen/eigen.git
-    #     cd eigen
-    #     git checkout 3.4.0
-    #     mkdir build
-    #     cd build
-    #     cmake .. -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=../eigeninstall/
-    #     make install
-    #     cd ../../
-
     - name: Install Eigen
       run: |
         sudo apt-get install libeigen3-dev
         echo "Eigen version"
-        dpkg -s libeigen3-dev
+        dpkg -s libeigen3-dev | grep 'Version'
 
     - name: Install tudat-resources
       run: |
