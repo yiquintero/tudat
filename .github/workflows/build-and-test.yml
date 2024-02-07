@@ -28,7 +28,6 @@ jobs:
         mkdir build
         cd build
         cmake .. -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=../eigeninstall/
-        make -j 8
         make install
         cd ../../
 
@@ -81,11 +80,9 @@ jobs:
         cmake .. -DCMAKE_BUILD_TYPE=RELEASE \
           -DTudatResources_DIR="../../tudat-resources/install" \
           -DCSpice_DIR="../../cspice-cmake/install/lib/cmake/cspice" \
-          -DSofa_DIR="../../sofa-cmake/install/lib/cmake/sofa/" \
-          -DEigen3_DIR="../../eigen/eigeninstall/share/eigen3/cmake/"
+          -DSofa_DIR="../../sofa-cmake/install/lib/cmake/sofa" \
+          -DEigen3_DIR="../../eigen/eigeninstall/share/eigen3/cmake"
         make -j 8
-
-
 
 
   # build-and-test:
