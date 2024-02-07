@@ -11,14 +11,9 @@ on:
 jobs:
   build-and-test-linux:
 
-    runs-on: ubuntu-22.04 # GitHub hosted runner (machine) on which tudat will be built
+    runs-on: ubuntu-latest # GitHub hosted runner (machine) on which tudat will be built
 
     steps:
-    - name: System update
-      run: |
-        sudo apt-get update
-        sudo apt-get install build-essential
-        sudo apt-get install libstdc++6
 
     - name: Install Boost
       run: |
