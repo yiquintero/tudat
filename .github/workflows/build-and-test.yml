@@ -15,9 +15,11 @@ jobs:
 
     steps:
 
-    - name: Install libstdc++
+    - name: System update
       run: |
-        sudo apt-get install libstdc++
+        sudo apt update
+        sudo apt-get purge build-essential
+        sudo apt-get install build-essential
 
     - name: Install Boost
       run: |
