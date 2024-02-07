@@ -20,16 +20,21 @@ jobs:
         echo "Boost version"
         dpkg -s libboost-all-dev | grep 'Version'
 
-    - name: Install Eigen 3.4.0
+    # - name: Install Eigen 3.4.0
+    #   run: |
+    #     git clone https://gitlab.com/libeigen/eigen.git
+    #     cd eigen
+    #     git checkout 3.4.0
+    #     mkdir build
+    #     cd build
+    #     cmake .. -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=../eigeninstall/
+    #     make install
+    #     cd ../../
+
+    - name: Install Eigen
       run: |
-        git clone https://gitlab.com/libeigen/eigen.git
-        cd eigen
-        git checkout 3.4.0
-        mkdir build
-        cd build
-        cmake .. -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=../eigeninstall/
-        make install
-        cd ../../
+        sudo apt-get install libeigen3-dev
+        dpkg -s libeigen3-dev
 
     - name: Install tudat-resources
       run: |
