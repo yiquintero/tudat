@@ -11,9 +11,17 @@ on:
 jobs:
   build-and-test-linux:
 
-    runs-on: ubuntu-latest # GitHub hosted runner (machine) on which tudat will be built
+    runs-on: ubuntu-22.04 # GitHub hosted runner (machine) on which tudat will be built
 
     steps:
+    - name: Install build-essential
+      run: |
+        sudo apt-get update
+        sudo apt-get install build-essential
+        echo "YEYE-----------YEYE"
+        ls /usr/include/c++/11/
+        echo "YEYE-----------YEYE"
+        head -n5 /usr/include/c++/11/math.h
 
     - name: Install Boost
       run: |
@@ -74,6 +82,7 @@ jobs:
         mkdir build
         cd build
         cmake .. -DCMAKE_CXX_STANDARD=14 \
+          -DCMAKE_CXX_FLAGS="-lm" \
           -DCMAKE_BUILD_TYPE=RELEASE \
           -DTudatResources_DIR="../../tudat-resources/install" \
           -DCSpice_DIR="../../cspice-cmake/install/lib/cmake/cspice" \
