@@ -102,6 +102,7 @@ jobs:
       uses: hendrikmuhs/ccache-action@v1.2.12
       with:
         key: ${{ matrix.os }}-${{ matrix.type }}
+        verbose: 2
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -119,12 +120,12 @@ jobs:
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator). Use multiple cpu cores available in the runner.
       shell: bash -l {0}
-      run: cmake --build "${{ steps.strings.outputs.build-output-dir }}" --config "${{ matrix.build_type }}" -j4
+      run: cmake --build "${{ steps.strings.outputs.build-output-dir }}" --config "${{ matrix.build_type }}" -j8
 
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest --build-config ${{ matrix.build_type }}
+      run: ctest --build-config ${{ matrix.build_type }} -j8
 
 
