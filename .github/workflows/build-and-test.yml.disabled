@@ -1,0 +1,93 @@
+name: build-and-test # workflow
+
+# Triggers for the jobs in this workflow
+on:
+  push:
+    branches: [ "master", "develop", "*/*" ]
+  pull_request:
+    branches: [ "master", "develop" ]
+
+# Steps to build tudat
+jobs:
+  build-and-test-linux:
+
+    runs-on: ubuntu-22.04 # GitHub hosted runner (machine) on which tudat will be built
+
+    steps:
+    - name: Install build-essential
+      run: |
+        sudo apt-get update
+        sudo apt-get install build-essential
+        echo "YEYE-----------YEYE"
+        ls /usr/include/c++/11/
+        echo "YEYE-----------YEYE"
+        head -n5 /usr/include/c++/11/math.h
+
+    - name: Install Boost
+      run: |
+        sudo apt-get install libboost-all-dev
+        echo "Boost version"
+        dpkg -s libboost-all-dev | grep 'Version'
+
+    - name: Install Eigen
+      run: |
+        sudo apt-get install libeigen3-dev
+        echo "Eigen version"
+        dpkg -s libeigen3-dev | grep 'Version'
+
+    - name: Install tudat-resources
+      run: |
+        git clone https://github.com/tudat-team/tudat-resources.git
+        cd tudat-resources
+        git checkout master
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=../install/
+        make -j 8
+        make install
+        cd ../../
+
+    - name: Install CSpice
+      run: |
+        git clone https://github.com/tudat-team/cspice-cmake.git
+        cd cspice-cmake
+        git checkout master
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=../install/
+        make -j 8
+        make install
+        cd ../../
+
+    - name: Install Sofa
+      run: |
+        git clone https://github.com/tudat-team/sofa-cmake.git
+        cd sofa-cmake
+        git checkout master
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=../install/
+        make -j 8
+        make install
+        cd ../../
+
+    - name: Checkout tudat
+      uses: actions/checkout@v4
+      with:
+        path: tudat
+
+    - name: Build tudat
+      run: |
+        cd tudat
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_CXX_STANDARD=14 \
+          -DCMAKE_CXX_FLAGS="-lm" \
+          -DCMAKE_BUILD_TYPE=RELEASE \
+          -DTudatResources_DIR="../../tudat-resources/install" \
+          -DCSpice_DIR="../../cspice-cmake/install/lib/cmake/cspice" \
+          -DSofa_DIR="../../sofa-cmake/install/lib/cmake/sofa"
+        make -j 8
+
+#sudo apt-get purge build-essential
+#sudo apt-get install build-essential
