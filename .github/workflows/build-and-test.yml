@@ -90,10 +90,20 @@ jobs:
       shell: bash -l {0}
       run: conda list
 
-    - name: ccache
+    - name: ccache windows
+      if: matrix.os == 'windows-latest'
       uses: hendrikmuhs/ccache-action@v1.2.12
       with:
         key: ${{ matrix.os }}-${{ matrix.type }}
+        restore: false
+        variant: sccache
+
+    - name: ccache linux and macos
+      if: matrix.os != 'windows-latest'
+      uses: hendrikmuhs/ccache-action@v1.2.12
+      with:
+        key: ${{ matrix.os }}-${{ matrix.type }}
+        restore: false
 
     - name: Configure CMake
       shell: bash -l {0}
