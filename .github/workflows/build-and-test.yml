@@ -10,7 +10,7 @@ on:
     branches: [ "master", "develop" ]
 
 jobs:
-  build:
+  build-and-test:
 
     # env:
     #     CACHE_NUMBER: 0
@@ -118,5 +118,10 @@ jobs:
       # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest --build-config ${{ matrix.build_type }} -j8
+
+    - name: Debug Tests
+      run : cat "${{ github.workspace }}/build/Testing/Temporary/LastTest.log"
+      if: matrix.os == 'macos-latest'
+
 
 
