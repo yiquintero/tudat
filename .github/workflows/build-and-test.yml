@@ -120,8 +120,7 @@ jobs:
       run: ctest --build-config ${{ matrix.build_type }} -j8
 
     - name: Debug Tests
-      if: always()
-      if: matrix.os == 'macos-latest'
+      if: always() && matrix.os == 'macos-latest'
       run: cat "${{ github.workspace }}/build/Testing/Temporary/LastTest.log"
 
 
