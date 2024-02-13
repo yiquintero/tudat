@@ -103,8 +103,8 @@ if (TUDAT_BUILD_GITHUB_ACTIONS)
     set(CMAKE_VS_GLOBALS
       "CLToolExe=cl.exe"
       "CLToolPath=${CMAKE_BINARY_DIR}"
-      "TrackFileAccess=false"
-      "UseMultiToolTask=true"
+      #"TrackFileAccess=false"
+      #"UseMultiToolTask=true"
       #"DebugInformationFormat=OldStyle"
     )
   endif()
