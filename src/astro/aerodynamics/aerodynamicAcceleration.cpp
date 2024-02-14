@@ -32,7 +32,7 @@ Eigen::Vector3d computeAerodynamicAcceleration(
         AerodynamicCoefficientInterfacePointer coefficientInterface,
         const double vehicleMass )
 {
-    int x = 7;
+    int x = 9;
     return computeAerodynamicForce( dynamicPressure, coefficientInterface ) / vehicleMass;
 }
 

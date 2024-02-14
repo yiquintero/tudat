@@ -95,11 +95,6 @@ jobs:
       with:
         key: ${{ matrix.os }}-${{ matrix.type }}
 
-    - name: Set ccache compiler check
-      if: matrix.os == 'windows-latest'
-      shell: bash -l {0}
-      run: ccache --set-config=compiler_check=mtime
-
     - name: Configure CMake
       shell: bash -l {0}
       run: >
