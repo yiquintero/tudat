@@ -95,10 +95,10 @@ jobs:
       with:
         key: ${{ matrix.os }}-${{ matrix.type }}
 
-    - name: clean up ccache's cache
-      if: matrix.os == 'ubuntu-latest'
+    - name: Set ccache compiler check
+      if: matrix.os == 'windows-latest'
       shell: bash -l {0}
-      run: ccache --clear; ccache -s -v
+      run: ccache compiler_check=content
 
     - name: Configure CMake
       shell: bash -l {0}
