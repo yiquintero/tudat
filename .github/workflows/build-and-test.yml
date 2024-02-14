@@ -86,24 +86,19 @@ jobs:
       run: mamba env update -n tudat -f environment.yml
       # if: steps.cache.outputs.cache-hit != 'true'
 
-    - name: Conda list
+    # - name: Conda list
+    #   shell: bash -l {0}
+    #   run: conda list
+
+    - name: ccache
+      uses: hendrikmuhs/ccache-action@v1.2.12
+      with:
+        key: ${{ matrix.os }}-${{ matrix.type }}
+        restore: false
+
+    - name: clean up ccache's cache
       shell: bash -l {0}
-      run: conda list
-
-    - name: ccache windows
-      if: matrix.os == 'windows-latest'
-      uses: hendrikmuhs/ccache-action@v1.2.12
-      with:
-        key: ${{ matrix.os }}-${{ matrix.type }}
-        restore: false
-        variant: sccache
-
-    - name: ccache linux and macos
-      if: matrix.os != 'windows-latest'
-      uses: hendrikmuhs/ccache-action@v1.2.12
-      with:
-        key: ${{ matrix.os }}-${{ matrix.type }}
-        restore: false
+      run: ccache --clear; ccache -s -v
 
     - name: Configure CMake
       shell: bash -l {0}
@@ -118,10 +113,17 @@ jobs:
         -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
         -DTUDAT_BUILD_GITHUB_ACTIONS=ON
 
-    - name: Build
+    - name: Build Linux and MacOs
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator). Use multiple cpu cores available in the runner.
+      if: matrix.os != 'windows-latest'
       shell: bash -l {0}
       run: cmake --build "${{ github.workspace }}/build" --config "${{ matrix.build_type }}" -j8
+
+    - name: Build Windows
+      # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator). Use multiple cpu cores available in the runner.
+      if: matrix.os == 'windows-latest'
+      shell: bash -l {0}
+      run: cmake --build "${{ github.workspace }}/build" --config "${{ matrix.build_type }}" -m8
 
     - name: Test
       working-directory: "${{ github.workspace }}/build"
