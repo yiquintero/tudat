@@ -328,6 +328,8 @@
                  # possible loss of data
                  "C4389" # 'operator' : signed/unsigned mismatch
                  "C4706" # assignment within conditional expression
+                 "C4834" # discarding return value of function with 
+                  # 'nodiscard' attribute
                  "C4996" # The POSIX name for this item is deprecated.
                  # Instead, use the ISO C and C++ conformant name
                  )
@@ -370,7 +372,7 @@ else()
 endif ()
 
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftemplate-backtrace-limit=0")
 
 
