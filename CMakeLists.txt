@@ -90,7 +90,7 @@ endif()
 # Option enables the use of ccache by MSVC
 # see https://github.com/ccache/ccache/wiki/MS-Visual-Studio
 option(TUDAT_BUILD_GITHUB_ACTIONS "Build as part of GitHub Actions workflow." OFF)
-if (TUDAT_BUILD_GITHUB_ACTIONS AND WIN32)
+if (TUDAT_BUILD_GITHUB_ACTIONS AND WIN32 AND MSVC)
     find_program(ccache_exe ccache)
     if(ccache_exe)
         message(STATUS "CONFIGURING MSVC FOR CCACHE")

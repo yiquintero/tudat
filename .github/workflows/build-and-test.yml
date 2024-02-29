@@ -86,10 +86,6 @@ jobs:
       run: mamba env update -n tudat -f environment.yml
       # if: steps.cache.outputs.cache-hit != 'true'
 
-    # - name: Conda list
-    #   shell: bash -l {0}
-    #   run: conda list
-
     - name: ccache
       uses: hendrikmuhs/ccache-action@v1.2.12
       with:
@@ -109,13 +105,13 @@ jobs:
         -DTUDAT_BUILD_GITHUB_ACTIONS=ON
 
     - name: Build Linux and MacOs
-      # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator). Use multiple cpu cores available in the runner.
+      # Build tudat in the given configuration. Use multiple cpu cores available in the runner.
       if: matrix.os != 'windows-latest'
       shell: bash -l {0}
       run: cmake --build "${{ github.workspace }}/build" --config "${{ matrix.build_type }}" -j4
 
     - name: Build Windows
-      # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator). Use multiple cpu cores available in the runner.
+      # Build tudat with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator). Use multiple cpu cores available in the runner.
       if: matrix.os == 'windows-latest'
       shell: bash -l {0}
       run: cmake --build "${{ github.workspace }}/build" --config "${{ matrix.build_type }}" -- -m:4
@@ -125,10 +121,6 @@ jobs:
       # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest --build-config ${{ matrix.build_type }} -j4
-
-    - name: Debug Tests
-      if: always() && matrix.os == 'macos-latest'
-      run: cat "${{ github.workspace }}/build/Testing/Temporary/LastTest.log"
 
 
 
