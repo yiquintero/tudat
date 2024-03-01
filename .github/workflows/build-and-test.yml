@@ -102,7 +102,7 @@ jobs:
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_C_COMPILER_LAUNCHER=ccache
         -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
-        -DTUDAT_BUILD_WITH_FILTERS=ON
+        -DTUDAT_BUILD_WITH_JSON_INTERFACE=ON
         -DTUDAT_BUILD_GITHUB_ACTIONS=ON
 
     - name: Build Linux and MacOs
